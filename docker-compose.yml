@@ -1,0 +1,49 @@
+services:
+  apache:
+    build: ./apache
+    ports:
+      - "80:80"
+    depends_on:
+      - fastapi
+    networks:
+      - app_network
+  
+  fastapi:
+    build: ./fastapi
+    expose:
+      - 8000
+    networks:
+      - app_network
+    volumes:
+      - ./fastapi:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+  
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=testdb
+    networks:
+      - app_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p123456"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    command: --wait-timeout=600 --interactive-timeout=600
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge
