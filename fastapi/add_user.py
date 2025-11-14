@@ -1,11 +1,17 @@
 import requests
 import sys
+import os
 
 
 def add(name: str, email: str):
+    if os.getenv('RUNNING_IN_DOCKER'):
+        base_url = "http://fastapi:8000"
+    else:
+        base_url = "http://localhost"
+    
     json_data = {"name": name, "email": email}
     try:
-        response = requests.post(url="http://localhost/users" ,json=json_data)
+        response = requests.post(url=f"{base_url}/users", json=json_data)
         print(response.text)
     except requests.RequestException as e:
         print(str(e))

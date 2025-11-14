@@ -1,6 +1,6 @@
 services:
   apache:
-    build: ./apache
+    image: bejlohukku/app-apache-apache:latest
     ports:
       - "80:80"
     depends_on:
@@ -9,13 +9,11 @@ services:
       - app_network
   
   fastapi:
-    build: ./fastapi
+    image: bejlohukku/app-apache-fastapi:latest
     expose:
       - 8000
     networks:
       - app_network
-    volumes:
-      - ./fastapi:/app
     environment:
       - PYTHONUNBUFFERED=1
       - RUNNING_IN_DOCKER=1
