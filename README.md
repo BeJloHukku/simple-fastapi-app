@@ -73,13 +73,14 @@ app-apache/
 │   ├── database.py          # Конфигурация БД
 │   ├── models.py            # ORM модели
 │   ├── db_functions.py      # Функции для работы с БД
-│   ├── requirements.txt      # Python зависимости
+│   ├── requirements.txt     # Python зависимости
+    ├── add_user.py          # Скрипт для добавления пользователей
 │   └── Dockerfile           # Dockerfile для FastAPI
 ├── apache/
 │   ├── Dockerfile           # Dockerfile для Apache
 │   └── my-httpd.conf        # Конфиг Apache
-├── docker-compose.yml       # Compose конфиг
-└── add_user.py              # Скрипт для добавления пользователей
+├── docker-compose.prod.yml  # Compose конфиг для использования
+└── docker-compose.yml       # Compose конфиг для разработки          
 ```
 
 ## **Стоп приложения**
